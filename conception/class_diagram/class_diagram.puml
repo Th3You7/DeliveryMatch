@@ -1,0 +1,71 @@
+@startuml Linkup_diagramm_class
+class User {
+    -id: UUID
+    -username: String
+    -firstName: String
+    -lastName: String
+    -email: String
+    -password: String
+}
+
+class Admin {
+ 
+}
+
+class Sender {
+   
+}
+
+class Driver {
+
+}
+
+class Trip {
+    -id: UUID
+    -departure: String
+    -arrival: String
+    -parcelType: ParcelType
+}
+
+class TripStops {
+    -id: UUID
+    -stop: String
+}
+
+class TripRequest {
+    -id: UUID
+    -status: TripRequestStatus
+}
+
+class Parcel {
+    -id: UUID
+    -width: double
+    -height: double
+    -weight: double
+    -type: ParcelType
+
+}
+
+enum ParcelType {
+
+}
+
+enum TripRequestStatus {
+
+}
+
+
+User <|-- Admin
+User <|-- Driver
+User <|-- Sender
+
+Trip "1" -- "0..*" Parcel : "has"
+Trip "1" *-- "0..*" TripRequest : "has"
+Trip "1" *-- "0..*" TripStops : "has"
+Sender "1" *-- "0..*" TripRequest: "has"
+TripRequest "1" -- "1..*" Parcel : "has"
+Driver "1" -- "0..*" Trip : "manage"
+
+
+
+@enduml
