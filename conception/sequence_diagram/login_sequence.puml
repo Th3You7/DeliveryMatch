@@ -1,0 +1,39 @@
+@startuml sequence_diagram
+actor User
+participant "UI" as UI
+participant "Server" as Server
+database "DB" as DB
+
+User -> UI: "Click Login"
+activate UI
+UI -> User: "Redirect to Login Page"
+deactivate UI
+
+User -> UI: "Click Submit"
+activate UI
+UI -> Server: "Send Credentials"
+deactivate UI
+activate Server
+Server --> DB: "Request Data"
+deactivate Server
+activate DB
+DB --> Server: "Return Data"
+deactivate DB
+
+
+alt Succussful Login
+    activate Server
+    Server --> UI: "Return Succuss"
+    deactivate Server
+    activate UI
+    UI --> User: "Redirect To Home"
+    deactivate UI
+else Failure Login
+    activate Server
+    Server --> UI: "Return Failure"
+    deactivate Server
+    activate UI
+    UI --> User: "Redirect To Login Page with error"
+    deactivate UI
+end
+@enduml
