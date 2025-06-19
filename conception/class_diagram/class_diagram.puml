@@ -46,6 +46,7 @@ class Parcel {
 
 }
 
+
 enum ParcelType {
 
 }
@@ -59,12 +60,19 @@ User <|-- Admin
 User <|-- Driver
 User <|-- Sender
 
-Trip "1" -- "0..*" Parcel : "has"
-Trip "1" *-- "0..*" TripRequest : "has"
-Trip "1" *-- "0..*" TripStops : "has"
-Sender "1" *-- "0..*" TripRequest: "has"
+Admin "1" -left--> "1..*" Driver : "manage"
+Admin "1" -right--> "1..*" Sender : "manage"
+Admin "1" -- "0..*" Trip : "manage"
+
+Sender "1 " --> "0..* " TripRequest: "send & cancel"
+
+Driver "1" --> "0..*" Trip : "manage"
+
+
+Trip "1" -- "1..*" Parcel : "has"
+Trip "1" -right-- "0..*" TripRequest : "has"
+TripStops "0..*" -right--* "1" Trip : "has"
 TripRequest "1" -- "1..*" Parcel : "has"
-Driver "1" -- "0..*" Trip : "manage"
 
 
 
