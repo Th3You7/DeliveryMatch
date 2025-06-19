@@ -3,8 +3,8 @@ left to right direction
 
 actor :User: as A1
 actor :Admin: as A2
-actor :Sender: as A3
-actor :Driver: as A4
+actor :Driver: as A3
+actor :Sender: as A4
 
 rectangle DeliveryMatch {
 
@@ -18,75 +18,83 @@ rectangle DeliveryMatch {
     usecase (Update Trip) as U6
     usecase (Delete Trip) as U7
     
-    usecase (Create Trip Request) as U8
-    usecase (Read All Trip Requests) as U9
-    usecase (Update Trip Request) as U10
-    usecase (List My Trip Request) as U15
+   
+    usecase (Read All Users) as U22
+    usecase (Read User) as U23
+    usecase (Validate User) as U24
+    usecase (Suspend User) as U25
     
     
     usecase (Accept Trip Request) as U11
     usecase (Decline Trip Request) as U12
     usecase (Cancel Trip Request) as U14
+    usecase (Send Trip Request) as U27
 
     usecase (Authentication) as U13
 
+    usecase (Manage Trip) as U17
+    usecase (Manage Trip Request) as U18
+    usecase (Auth) as U21
+    usecase (Manage User) as U26
 }
 
 A1 -- A2
 A1 -- A3
 A1 -- A4
  
-A2 -- U1
-A2 -- U2
-
-A3 -- U1
-A3 -- U2
-
-A4 -- U1
-A4 -- U2
+A2 --|> A3
 
 
+U17 <|-- U3
+U17 <|-- U4
+U17 <|-- U5
+U17 <|-- U6
+U17 <|-- U7
 
-A3 -- U3
-A3 -- U4
-A3 -- U16
-A3 -- U6
-A3 -- U7
-A3 -- U9
-A3 -- U11
-A3 -- U12
+U18 <|-- U11
+U18 <|-- U12
 
-A2 -- U3
-A2 -- U4
-A2 -- U5
-A2 -- U6
-A2 -- U7
-A2 -- U9
-A2 -- U11
-A2 -- U12
 
-A4 -- U8
-A4 -- U9
-A4 -- U10
-A4 -- U14
-A4 -- U15
+
+U21 <|-- U1
+U21 <|-- U2
+
+U26 <|-- U22
+U26 <|-- U23
+U26 <|-- U24
+U26 <|-- U25
+
+A2 -- U26
+
+
+A3 -- U21
+A3 -- U17
+A3 -- U18
+
+A4 -- U21
 A4 -- U16
+A4 -- U14
+A4 -- U27
 
-U3 --> U13 : <<include>>
-U4 --> U13 : <<include>>
-U5 --> U13 : <<include>>
-U6 --> U13 : <<include>> 
-U7 --> U13 : <<include>>
 
-U8 --> U13 : <<include>>
-U9 --> U13 : <<include>>
-U10 --> U13 : <<include>>
+U3 ..> U13 : <<include>>
+U4 ..> U13 : <<include>>
+U5 ..> U13 : <<include>>
+U6 ..> U13 : <<include>> 
+U7 ..> U13 : <<include>>
 
-U11 --> U13 : <<include>>
-U12 --> U13 : <<include>>
-U14 --> U13 : <<include>>
-U15 --> U13 : <<include>>
-U16 --> U13 : <<include>>
+
+U11 ..> U13 : <<include>>
+U12 ..> U13 : <<include>>
+U14 ..> U13 : <<include>>
+U16 ..> U13 : <<include>>
+
+U22 ..> U13 : <<include>>
+U23 ..> U13 : <<include>>
+U24 ..> U13 : <<include>>
+U25 ..> U13 : <<include>>
+U27 ..> U13 : <<include>>
+
 
 
 @enduml

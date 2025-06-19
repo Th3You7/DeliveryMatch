@@ -23,7 +23,7 @@ deactivate DB
 
 alt Succussful Register
     activate Server
-    Server --> UI: "Return Succuss & Token"
+    Server --> UI: "Return Succuss"
     deactivate Server
     activate UI
     UI --> User: "Redirect To Login"
