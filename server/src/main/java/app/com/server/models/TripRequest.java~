@@ -38,9 +38,4 @@ public class TripRequest {
     @JoinColumn(name = "sender_id")
     private Sender sender;
     // Getters and setters
-
-
-    public Trip getTrip() {
-        return trip;
-    }
-}
+} 
