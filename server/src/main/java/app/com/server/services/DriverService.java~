@@ -1,0 +1,203 @@
+package app.com.server.services;
+
+import app.com.server.models.Driver;
+import app.com.server.models.Trip;
+import app.com.server.models.TripRequest;
+import app.com.server.repositories.DriverRepository;
+import app.com.server.repositories.TripRepository;
+import app.com.server.repositories.TripRequestRepository;
+import app.com.server.repositories.UserRepository;
+import app.com.server.dto.TripDto;
+import app.com.server.dto.TripRequestDto;
+import app.com.server.mapper.TripMapper;
+import app.com.server.mapper.TripRequestMapper;
+import app.com.server.enums.TripRequestStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Service
+public class DriverService {
+    private final DriverRepository driverRepository;
+    private final TripRepository tripRepository;
+    private final TripRequestRepository tripRequestRepository;
+    private final UserRepository userRepository;
+    private final TripMapper tripMapper;
+    private final TripRequestMapper tripRequestMapper;
+
+    @Autowired
+    public DriverService(
+            DriverRepository driverRepository,
+            TripRepository tripRepository,
+            TripRequestRepository tripRequestRepository,
+            UserRepository userRepository,
+            TripMapper tripMapper,
+            TripRequestMapper tripRequestMapper) {
+        this.driverRepository = driverRepository;
+        this.tripRepository = tripRepository;
+        this.tripRequestRepository = tripRequestRepository;
+        this.userRepository = userRepository;
+        this.tripMapper = tripMapper;
+        this.tripRequestMapper = tripRequestMapper;
+    }
+
+    public List<TripDto> getDriverTrips(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<Trip> trips = tripRepository.findByDriver(driver);
+        return trips.stream()
+                .map(tripMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TripDto> getActiveTrips(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<Trip> trips = tripRepository.findByDriverAndStatus(driver, "ACTIVE");
+        return trips.stream()
+                .map(tripMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TripDto> getCompletedTrips(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<Trip> trips = tripRepository.findByDriverAndStatus(driver, "COMPLETED");
+        return trips.stream()
+                .map(tripMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TripDto> getTripHistory(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<Trip> trips = tripRepository.findByDriverAndStatus(driver, "COMPLETED");
+        return trips.stream()
+                .map(tripMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public TripDto createTrip(String driverUsername, TripDto tripDto) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        Trip trip = tripMapper.toEntity(tripDto);
+        trip.setDriver(driver);
+        trip.setStatus("ACTIVE");
+        
+        Trip savedTrip = tripRepository.save(trip);
+        return tripMapper.toDto(savedTrip);
+    }
+
+    public TripDto updateTrip(String driverUsername, String tripId, TripDto tripDto) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        Trip existingTrip = tripRepository.findById(UUID.fromString(tripId))
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+        
+        if (!existingTrip.getDriver().getId().equals(driver.getId())) {
+            throw new RuntimeException("Unauthorized to update this trip");
+        }
+        
+        existingTrip.setDeparture(tripDto.departure);
+        existingTrip.setArrival(tripDto.arrival);
+        existingTrip.setParcelType(tripDto.parcelType);
+        
+        Trip updatedTrip = tripRepository.save(existingTrip);
+        return tripMapper.toDto(updatedTrip);
+    }
+
+    public void deleteTrip(String driverUsername, String tripId) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        Trip trip = tripRepository.findById(UUID.fromString(tripId))
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+        
+        if (!trip.getDriver().getId().equals(driver.getId())) {
+            throw new RuntimeException("Unauthorized to delete this trip");
+        }
+        
+        tripRepository.delete(trip);
+    }
+
+    public List<TripRequestDto> getTripRequests(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<TripRequest> requests = tripRequestRepository.findByTripDriver(driver);
+        return requests.stream()
+                .map(tripRequestMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TripRequestDto> getPendingRequests(String driverUsername) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        List<TripRequest> requests = tripRequestRepository.findByTripDriverAndStatus(driver, TripRequestStatus.PENDING);
+        return requests.stream()
+                .map(tripRequestMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public void acceptRequest(String driverUsername, String requestId) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        TripRequest request = tripRequestRepository.findById(UUID.fromString(requestId))
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+        
+        if (!request.getTrip().getDriver().getId().equals(driver.getId())) {
+            throw new RuntimeException("Unauthorized to accept this request");
+        }
+        
+        request.setStatus(TripRequestStatus.ACCEPTED);
+        tripRequestRepository.save(request);
+    }
+
+    public void declineRequest(String driverUsername, String requestId) {
+        Driver driver = driverRepository.findByUsername(driverUsername);
+        if (driver == null) {
+            throw new RuntimeException("Driver not found");
+        }
+        
+        TripRequest request = tripRequestRepository.findById(UUID.fromString(requestId))
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+        
+        if (!request.getTrip().getDriver().getId().equals(driver.getId())) {
+            throw new RuntimeException("Unauthorized to decline this request");
+        }
+        
+        request.setStatus(TripRequestStatus.DECLINED);
+        tripRequestRepository.save(request);
+    }
+} 

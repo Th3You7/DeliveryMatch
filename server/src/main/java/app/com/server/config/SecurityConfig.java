@@ -43,6 +43,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                .requestMatchers("/api/driver/**").hasRole("DRIVER")
                 // .requestMatchers("/api/client/**").hasRole("CLIENT")
                 // .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -70,11 +71,7 @@ public class SecurityConfig {
         return username -> {
             User user = userRepository.findByUsername(username);
             if (user == null) throw new UsernameNotFoundException("User not found");
-            return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities("USER")
-                .build();
+            return user; // Return the User entity directly since it implements UserDetails
         };
     }
 

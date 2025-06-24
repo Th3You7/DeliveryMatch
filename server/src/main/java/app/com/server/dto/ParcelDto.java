@@ -16,6 +16,7 @@ public class ParcelDto {
     private double width;
     private double height;
     private double weight;
+    private int quantity;
     private String type;
     private UUID tripId;
     private UUID tripRequestId;

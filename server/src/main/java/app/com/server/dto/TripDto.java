@@ -1,5 +1,6 @@
 package app.com.server.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,9 @@ public class TripDto {
     private String departure;
     private String arrival;
     private String parcelType;
+    private String status;
     private UUID driverId;
-    // Optionally, you can add List<UUID> for parcels, tripRequests, tripStops if needed
+    private List<TripStopsDto> tripStops;
+    private List<ParcelDto> parcels;
+    private List<UUID> tripRequestIds;
 }
