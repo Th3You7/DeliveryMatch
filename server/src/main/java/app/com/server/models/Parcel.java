@@ -27,6 +27,7 @@ public class Parcel {
     private double width;
     private double height;
     private double weight;
+    private int quantity;
     @Enumerated(EnumType.STRING)
     private ParcelType type;
     @ManyToOne

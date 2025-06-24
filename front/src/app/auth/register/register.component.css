@@ -1,0 +1,33 @@
+/* Register component specific styles */
+/* Most styling is handled by the design system in styles.css */
+
+/* Ensure proper z-index for floating elements */
+.animate-float {
+  z-index: 0;
+}
+
+/* Smooth transitions for form interactions */
+.form-group input:focus {
+  @apply transform scale-[1.02] transition-transform duration-200;
+}
+
+/* Custom focus styles for better accessibility */
+.btn:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-primary-500;
+}
+
+.input:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-primary-500;
+}
+
+/* Responsive adjustments for the split layout */
+@media (max-width: 1024px) {
+  .auth-card {
+    @apply max-w-md mx-auto;
+  }
+}
+
+/* Animation for success/error messages */
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}

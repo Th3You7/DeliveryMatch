@@ -1,8 +1,9 @@
 package app.com.server.controllers;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import app.com.server.dto.LoginRequestDto;
 import app.com.server.dto.LoginResponseDto;
 import app.com.server.dto.RegisterRequestDto;
+import app.com.server.enums.UserType;
+import app.com.server.models.Driver;
+import app.com.server.models.Sender;
 import app.com.server.models.User;
 import app.com.server.repositories.UserRepository;
 import app.com.server.services.UserService;
@@ -49,7 +53,13 @@ public class AuthController {
             UserDetails user = (UserDetails) authentication.getPrincipal();
 
             String token = jwtUtil.generateToken(user.getUsername());
-            LoginResponseDto response = new LoginResponseDto(token, user.getUsername(), Collections.singletonList("USER"));
+            
+            // Extract all authorities
+            List<String> authorities = user.getAuthorities().stream()
+                    .map(authority -> authority.getAuthority())
+                    .collect(Collectors.toList());
+            
+            LoginResponseDto response = new LoginResponseDto(token, user.getUsername(), authorities);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
@@ -72,12 +82,32 @@ public class AuthController {
             return ResponseEntity.status(409).body(errorResponse);
         }
 
-        User user = new User();
-        user.setUsername(registerRequest.username);
-        user.setPassword(registerRequest.password);
-        user.setEmail(registerRequest.email);
-        user.setFirstName(registerRequest.firstName);
-        user.setLastName(registerRequest.lastName);
+        User user;
+        
+        // Create appropriate user type based on userType
+        if (registerRequest.userType == UserType.DRIVER) {
+            Driver driver = new Driver();
+            driver.setUsername(registerRequest.username);
+            driver.setPassword(registerRequest.password);
+            driver.setEmail(registerRequest.email);
+            driver.setFirstName(registerRequest.firstName);
+            driver.setLastName(registerRequest.lastName);
+            driver.setUserType(UserType.DRIVER);
+            user = driver;
+        } else if (registerRequest.userType == UserType.SENDER) {
+            Sender sender = new Sender();
+            sender.setUsername(registerRequest.username);
+            sender.setPassword(registerRequest.password);
+            sender.setEmail(registerRequest.email);
+            sender.setFirstName(registerRequest.firstName);
+            sender.setLastName(registerRequest.lastName);
+            sender.setUserType(UserType.SENDER);
+            user = sender;
+        } else {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Invalid user type");
+            return ResponseEntity.status(400).body(errorResponse);
+        }
         
         User savedUser = userService.register(user);
         
@@ -85,6 +115,7 @@ public class AuthController {
         response.put("message", "User registered successfully");
         response.put("userId", savedUser.getId());
         response.put("username", savedUser.getUsername());
+        response.put("userType", "ROLE_" + savedUser.getUserType().name());
         
         return ResponseEntity.ok(response);
     }

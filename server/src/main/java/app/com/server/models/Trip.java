@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import app.com.server.enums.ParcelType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,11 +31,12 @@ public class Trip {
     private String arrival;
     @Enumerated(EnumType.STRING)
     private ParcelType parcelType;
-    @OneToMany(mappedBy = "trip")
+    private String status = "ACTIVE"; // ACTIVE, COMPLETED, CANCELLED
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Parcel> parcels;
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TripRequest> tripRequests;
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TripStops> tripStops;
     @ManyToOne
     @JoinColumn(name = "driver_id")

@@ -1,0 +1,456 @@
+<div class="auth-container">
+  <!-- Background -->
+  <div class="auth-bg"></div>
+  <div class="auth-bg-pattern"></div>
+
+  <!-- Floating elements -->
+  <div
+    class="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-primary-400/20 to-accent-400/20 rounded-full blur-3xl animate-float"
+  ></div>
+  <div
+    class="absolute bottom-20 right-20 w-64 h-64 bg-gradient-to-tr from-accent-400/20 to-primary-400/20 rounded-full blur-3xl animate-float"
+    style="animation-delay: -2s"
+  ></div>
+
+  <!-- Main content -->
+  <div
+    class="w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center justify-center p-6 min-h-screen"
+  >
+    <!-- Left side - Branding (hidden on mobile) -->
+    <div class="hidden lg:block lg:pr-8">
+      <div class="text-center lg:text-left max-w-lg mx-auto lg:mx-0">
+        <!-- Logo -->
+        <div class="logo mx-auto lg:mx-0 mb-8">
+          <svg
+            class="logo-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            ></path>
+          </svg>
+        </div>
+
+        <h1 class="heading-1 text-gradient mb-8">Join DeliveryMatch</h1>
+        <p class="text-body text-lg mb-12 leading-relaxed">
+          Connect with reliable drivers and senders. Build your network, grow
+          your business, and deliver success together.
+        </p>
+
+        <!-- Features -->
+        <div class="space-y-8">
+          <div class="flex items-center space-x-5">
+            <div
+              class="flex-shrink-0 w-14 h-14 bg-success-100 rounded-xl flex items-center justify-center"
+            >
+              <svg
+                class="w-7 h-7 text-success-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-secondary-900 text-lg mb-1">
+                Secure & Reliable
+              </h3>
+              <p class="text-body">
+                Your data is protected with enterprise-grade security
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-5">
+            <div
+              class="flex-shrink-0 w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center"
+            >
+              <svg
+                class="w-7 h-7 text-primary-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-secondary-900 text-lg mb-1">
+                Fast & Efficient
+              </h3>
+              <p class="text-body">Connect instantly with verified partners</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-5">
+            <div
+              class="flex-shrink-0 w-14 h-14 bg-accent-100 rounded-xl flex items-center justify-center"
+            >
+              <svg
+                class="w-7 h-7 text-accent-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-secondary-900 text-lg mb-1">
+                Community Driven
+              </h3>
+              <p class="text-body">
+                Join thousands of successful delivery partners
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Registration form -->
+    <div class="w-full flex justify-center">
+      <!-- Mobile logo (hidden on desktop) -->
+      <div class="lg:hidden text-center mb-10">
+        <div class="logo mx-auto mb-6">
+          <svg
+            class="logo-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            ></path>
+          </svg>
+        </div>
+        <h1 class="heading-2 text-gradient mb-3">DeliveryMatch</h1>
+      </div>
+
+      <!-- Registration card -->
+      <div class="auth-card w-full max-w-md">
+        <div class="text-center mb-10">
+          <h2 class="heading-3 mb-3">Create Your Account</h2>
+          <p class="text-body">Join our community of delivery professionals</p>
+        </div>
+
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+          class="space-y-6"
+        >
+          <!-- Name fields -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="form-group">
+              <label for="firstName" class="form-label">First Name</label>
+              <input
+                id="firstName"
+                type="text"
+                formControlName="firstName"
+                placeholder="John"
+                class="input"
+                [class]="getFieldClass('firstName')"
+              />
+              <div
+                *ngIf="
+                  registerForm.get('firstName')?.invalid &&
+                  registerForm.get('firstName')?.touched
+                "
+                class="form-error"
+              >
+                {{ getErrorMessage("firstName") }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input
+                id="lastName"
+                type="text"
+                formControlName="lastName"
+                placeholder="Doe"
+                class="input"
+                [class]="getFieldClass('lastName')"
+              />
+              <div
+                *ngIf="
+                  registerForm.get('lastName')?.invalid &&
+                  registerForm.get('lastName')?.touched
+                "
+                class="form-error"
+              >
+                {{ getErrorMessage("lastName") }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Username field -->
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              placeholder="johndoe"
+              class="input"
+              [class]="getFieldClass('username')"
+            />
+            <div
+              *ngIf="
+                registerForm.get('username')?.invalid &&
+                registerForm.get('username')?.touched
+              "
+              class="form-error"
+            >
+              {{ getErrorMessage("username") }}
+            </div>
+          </div>
+
+          <!-- Email field -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="john.doe@example.com"
+              class="input"
+              [class]="getFieldClass('email')"
+            />
+            <div
+              *ngIf="
+                registerForm.get('email')?.invalid &&
+                registerForm.get('email')?.touched
+              "
+              class="form-error"
+            >
+              {{ getErrorMessage("email") }}
+            </div>
+          </div>
+
+          <!-- User Type field -->
+          <div class="form-group">
+            <label for="userType" class="form-label">Account Type</label>
+            <select
+              id="userType"
+              formControlName="userType"
+              class="input"
+              [class]="getFieldClass('userType')"
+            >
+              <option value="DRIVER">Driver</option>
+              <option value="SENDER">Sender</option>
+            </select>
+            <div
+              *ngIf="
+                registerForm.get('userType')?.invalid &&
+                registerForm.get('userType')?.touched
+              "
+              class="form-error"
+            >
+              {{ getErrorMessage("userType") }}
+            </div>
+          </div>
+
+          <!-- Password fields -->
+          <div class="space-y-5">
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <div class="relative">
+                <input
+                  id="password"
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
+                  placeholder="Create a strong password"
+                  class="input pr-12"
+                  [class]="getFieldClass('password')"
+                />
+                <button
+                  type="button"
+                  (click)="hidePassword = !hidePassword"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-colors"
+                >
+                  <svg
+                    *ngIf="hidePassword"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                  <svg
+                    *ngIf="!hidePassword"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('password')?.invalid &&
+                  registerForm.get('password')?.touched
+                "
+                class="form-error"
+              >
+                {{ getErrorMessage("password") }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label"
+                >Confirm Password</label
+              >
+              <div class="relative">
+                <input
+                  id="confirmPassword"
+                  [type]="hideConfirmPassword ? 'password' : 'text'"
+                  formControlName="confirmPassword"
+                  placeholder="Confirm your password"
+                  class="input pr-12"
+                  [class]="getFieldClass('confirmPassword')"
+                />
+                <button
+                  type="button"
+                  (click)="hideConfirmPassword = !hideConfirmPassword"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 hover:text-secondary-600 transition-colors"
+                >
+                  <svg
+                    *ngIf="hideConfirmPassword"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                  <svg
+                    *ngIf="!hideConfirmPassword"
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('confirmPassword')?.invalid &&
+                  registerForm.get('confirmPassword')?.touched
+                "
+                class="form-error"
+              >
+                {{ getErrorMessage("confirmPassword") }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Error/Success messages -->
+          <div
+            *ngIf="errorMessage"
+            class="p-4 bg-error-50 border border-error-200 rounded-xl text-error-600 text-sm animate-slide-up"
+          >
+            {{ errorMessage }}
+          </div>
+
+          <div
+            *ngIf="successMessage"
+            class="p-4 bg-success-50 border border-success-200 rounded-xl text-success-600 text-sm animate-slide-up"
+          >
+            {{ successMessage }}
+          </div>
+
+          <!-- Submit button -->
+          <button
+            type="submit"
+            [disabled]="isLoading || registerForm.invalid"
+            class="btn-primary w-full py-4 text-lg"
+          >
+            <div *ngIf="isLoading" class="spinner w-5 h-5"></div>
+            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading">Creating Account...</span>
+          </button>
+        </form>
+
+        <!-- Sign in link -->
+        <div class="text-center mt-10">
+          <p class="text-body">
+            Already have an account?
+            <a
+              routerLink="/login"
+              class="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+            >
+              Sign in here
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+    <p class="text-caption">© 2024 DeliveryMatch. All rights reserved.</p>
+  </div>
+</div>

@@ -1,0 +1,328 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceGentle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-secondary-50 via-primary-50 to-accent-50 min-h-screen text-secondary-900 antialiased;
+  }
+
+  * {
+    @apply border-secondary-200;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary-100 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-secondary-300 rounded-full hover:bg-secondary-400 transition-colors;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-soft;
+  }
+
+  .glass-dark {
+    @apply bg-secondary-900/80 backdrop-blur-md border border-secondary-700/20 shadow-soft;
+  }
+
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-soft hover:from-primary-700 hover:to-primary-800 hover:shadow-medium focus:ring-primary-500 transform hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-secondary-700 border border-secondary-200 shadow-soft hover:bg-secondary-50 hover:shadow-medium focus:ring-secondary-500 transform hover:scale-105;
+  }
+
+  .btn-accent {
+    @apply btn bg-gradient-to-r from-accent-600 to-accent-700 text-white shadow-soft hover:from-accent-700 hover:to-accent-800 hover:shadow-medium focus:ring-accent-500 transform hover:scale-105;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900 focus:ring-secondary-500;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border border-secondary-200 bg-white/80 backdrop-blur-sm text-secondary-900 placeholder-secondary-500 transition-all duration-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 focus:outline-none;
+  }
+
+  .input-error {
+    @apply border-error-300 focus:border-error-500 focus:ring-error-200;
+  }
+
+  .input-success {
+    @apply border-success-300 focus:border-success-500 focus:ring-success-200;
+  }
+
+  /* Card styles */
+  .card {
+    @apply glass rounded-2xl p-6 shadow-soft;
+  }
+
+  .card-elevated {
+    @apply glass rounded-2xl p-6 shadow-medium hover:shadow-large transition-shadow duration-300;
+  }
+
+  /* Form styles */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-secondary-700 mb-1;
+  }
+
+  .form-error {
+    @apply text-sm text-error-600 mt-1;
+  }
+
+  .form-success {
+    @apply text-sm text-success-600 mt-1;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary-100 text-secondary-800;
+  }
+
+  .badge-success {
+    @apply badge bg-success-100 text-success-800;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-800;
+  }
+
+  .badge-error {
+    @apply badge bg-error-100 text-error-800;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-secondary-200 border-t-primary-600;
+  }
+
+  /* Divider */
+  .divider {
+    @apply relative my-6;
+  }
+
+  .divider::before {
+    @apply absolute inset-0 flex items-center;
+    content: "";
+  }
+
+  .divider::before {
+    @apply border-t border-secondary-200;
+  }
+
+  .divider-text {
+    @apply relative flex justify-center text-sm;
+  }
+
+  .divider-text span {
+    @apply bg-white px-2 text-secondary-500;
+  }
+
+  /* Social login buttons */
+  .social-btn {
+    @apply btn-secondary w-full justify-center;
+  }
+
+  /* Auth container */
+  .auth-container {
+    @apply min-h-screen flex items-center justify-center p-4 relative overflow-hidden;
+  }
+
+  .auth-bg {
+    @apply absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-accent-50;
+  }
+
+  .auth-bg-pattern {
+    @apply absolute inset-0 opacity-30;
+    background-image: radial-gradient(
+        circle at 25% 25%,
+        rgba(59, 130, 246, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 75% 75%,
+        rgba(236, 72, 153, 0.1) 0%,
+        transparent 50%
+      );
+  }
+
+  .auth-card {
+    @apply card-elevated w-full max-w-md relative z-10 animate-fade-in;
+  }
+
+  /* Logo styles */
+  .logo {
+    @apply inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-medium mb-6;
+  }
+
+  .logo-icon {
+    @apply w-8 h-8 text-white;
+  }
+
+  /* Typography */
+  .heading-1 {
+    @apply text-4xl font-bold text-secondary-900 leading-tight;
+  }
+
+  .heading-2 {
+    @apply text-3xl font-semibold text-secondary-900 leading-tight;
+  }
+
+  .heading-3 {
+    @apply text-2xl font-semibold text-secondary-900 leading-tight;
+  }
+
+  .text-body {
+    @apply text-secondary-600 leading-relaxed;
+  }
+
+  .text-caption {
+    @apply text-sm text-secondary-500;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-primary-600 to-primary-700;
+  }
+
+  .bg-gradient-accent {
+    @apply bg-gradient-to-r from-accent-600 to-accent-700;
+  }
+
+  .shadow-glow {
+    @apply shadow-glow;
+  }
+
+  .shadow-glow-lg {
+    @apply shadow-glow-lg;
+  }
+}
